@@ -4,9 +4,6 @@ class SightingsController extends BaseController {
   constructor(db) {
     super(db);
   }
-  // constructor(model) {
-  //   super(model);
-  // }
 
   // Retrieve specific sighting
   async getOne(req, res) {
