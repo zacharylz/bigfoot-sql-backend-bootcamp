@@ -27,22 +27,9 @@ class CategoriesController extends BaseController {
     }
   }
 
-  // async addCategoryToSighting(req, res) {
-  //   const { sighting_id, categories } = req.body;
-  //   try {
-  //     const newSightingCategory = await this.db.sighting_categories.create({
-  //       sighting_id: sighting_id,
-  //       category_id: categories,
-  //     });
-  //     return res.json(newSightingCategory);
-  //   } catch (err) {
-  //     return res.status(400).json({ error: true, msg: err });
-  //   }
-  // }
-
   async getSightingCategories(req, res) {
     try {
-      const output = await this.db.sighting_categories.findAll();
+      const output = await this.db.sightingCategories.findAll();
       return res.json(output);
     } catch (err) {
       return res.status(400).json({ error: true, msg: err });
@@ -50,11 +37,37 @@ class CategoriesController extends BaseController {
   }
 
   async addCategoryToSighting(req, res) {
-    const { categories } = req.body;
-    const { sightingId } = req.params;
+    const { category_id, sighting_id } = req.body;
     try {
-      const newSightingCategory = await this.db.sightingCategories.create({
-        sighting_id: sightingId,
+      const sighting = await this.db.sightings.findByPk(sighting_id);
+      const category = await this.db.categories.findByPk(category_id);
+      sighting.addCategory(category);
+      return res.json(sighting);
+    } catch (err) {
+      return res.status(400).json({ error: true, msg: err });
+    }
+  }
+
+  // async addCategoryToSighting(req, res) {
+  //   const { category_id } = req.body;
+  //   const { sightingId } = req.params;
+  //   try {
+  //     const newSightingCategory = await this.db.sightingCategories.create({
+  //       sighting_id: sightingId,
+  //       category_id: category_id,
+  //     });
+  //     return res.json(newSightingCategory);
+  //   } catch (err) {
+  //     return res.status(400).json({ error: true, msg: err });
+  //   }
+  // }
+
+  async addCategoryToSighting2(req, res) {
+    const { sighting_id, categories } = req.body;
+    try {
+      console.log(sighting_id, categories);
+      const newSightingCategory = await this.db.sighting_categories.create({
+        sighting_id: sighting_id,
         category_id: categories,
       });
       return res.json(newSightingCategory);
@@ -62,8 +75,7 @@ class CategoriesController extends BaseController {
       return res.status(400).json({ error: true, msg: err });
     }
   }
-
-  // async addCategoryToSighting(req, res) {
+  // async addCategoryToSighting2(req, res) {
   //   const { sighting_id, categories } = req.body;
   //   try {
   //     const sightingCategories = [];

@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
         through: models.sightingCategories,
         key: "sighting_id",
       });
-      // this.hasMany(models.sighting_categories);
+      // this.hasMany(models.sightingcategories);
     }
   }
   Sighting.init(
